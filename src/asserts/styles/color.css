@@ -1,0 +1,21 @@
+:root {
+  --font-family: 'Inter', sans-serif;
+
+  --mint-bg: #edf5de;
+  --ui-white: #fff;
+  --ui-accent: #553406;
+  --ui-yellow: #d2bf86;
+  --ui-bluish: #d7e1e4;
+  --ui-purple: #cb9fd2;
+  --ui-gray: #383d38;
+  --ui-accent-active: #8c6227;
+  --ui-red: #a62123;
+  --ui-light-gray: #f5f5f5;
+  --ui-dark-blue: #0f172a;
+  --ui-black: #000000;
+  --ui-dark-gray: #1e1e1e;
+  --ui-pale-gray: #d9d9d9;
+
+  --ui-header-bg: #f1f5f9;
+  --mint-bg: #edf5de;
+}
