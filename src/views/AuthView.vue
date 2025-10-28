@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, toRef } from 'vue'
 import { loginService } from '@/services/authService.ts'
 import { useToast } from 'vue-toastification'
 import { currentUserStore } from '@/stores/currentUser.ts'
 import AppModal from '@/components/AppModal.vue'
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
+import { useValidation } from '@/composables/useValidation.ts'
 
 const store = currentUserStore()
 const toast = useToast()
@@ -15,22 +16,10 @@ const auth = reactive({
   email: '',
   password: ''
 })
+const { errorText: emailErrorText } = useValidation(toRef(auth, 'email'))
+const { errorText: passwordErrorText } = useValidation(toRef(auth, 'password'))
 
-const emailErrorText = computed(() => {
-  const email = auth.email.trim()
-  if (email.length === 0) {
-    return 'Это поле обязательно!'
-  }
-  return null
-})
-const passwordErrorText = computed(() => {
-  const password = auth.password.trim()
-  if (password.length === 0) {
-    return 'Это поле обязательно!'
-  }
-
-  return null
-})
+console.log(emailErrorText)
 
 const isSubmitDisable = computed(() => {
   return isLoading.value || !!emailErrorText.value || !!passwordErrorText.value

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, toRef } from 'vue'
 import { registerService } from '@/services/registerService.ts'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 import AppButton from '@/components/AppButton.vue'
 import AppInput from '@/components/AppInput.vue'
 import AppModal from '@/components/AppModal.vue'
+import { useValidation } from '@/composables/useValidation.ts'
 
 const router = useRouter()
 const toast = useToast()
@@ -16,22 +17,8 @@ const register = reactive({
   password: ''
 })
 
-const emailErrorText = computed(() => {
-  const email = register.email.trim()
-  if (email.length === 0) {
-    return 'Это поле обязательно!'
-  }
-  return null
-})
-
-const passwordErrorText = computed(() => {
-  const password = register.password.trim()
-  if (password.length === 0) {
-    return 'Это поле обязательно!'
-  }
-
-  return null
-})
+const { errorText: emailErrorText } = useValidation(toRef(register, 'email'))
+const { errorText: passwordErrorText } = useValidation(toRef(register, 'password'))
 
 const isSubmitDisable = computed(() => {
   return isLoading.value || !!emailErrorText.value || !!passwordErrorText.value

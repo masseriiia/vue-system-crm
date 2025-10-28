@@ -2,7 +2,7 @@
 
 defineProps<{
   to?: string
-  disabled: boolean
+  disabled?: boolean
 }>()
 </script>
 
