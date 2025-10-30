@@ -1,0 +1,22 @@
+html,
+body {
+    font-family: var(--font-family);
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    font-family: inherit;
+    box-sizing: inherit;
+}
+
+.container {
+    width: 100%;
+    max-width: 1230px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+ul {
+    list-style-type: none;
+}
