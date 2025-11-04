@@ -17,8 +17,8 @@ const register = reactive({
     password: '',
 })
 const touched = reactive({
-  email: false,
-  password: false,
+    email: false,
+    password: false,
 })
 
 const { errorText: emailErrorText } = useValidation(toRef(register, 'email'), 'email')
@@ -80,7 +80,7 @@ const handleRegisterSubmit = async () => {
         </div>
         <div class="flex justify-center items-center gap-2">
             <p class="flex-grow-0">Уже есть аккаунт?</p>
-            <AppButton to="/auth">Войти</AppButton>
+            <AppButton variant="secondary" to="/auth">Войти</AppButton>
         </div>
     </AppModal>
 </template>

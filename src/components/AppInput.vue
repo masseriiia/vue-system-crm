@@ -9,13 +9,18 @@ defineProps<{
 }>()
 
 const onBlur = () => {
-  isActive.value = true
+    isActive.value = true
 }
-
 </script>
 
 <template>
-    <input :type="type" class="input w-full" v-model="model" @blur="onBlur" :placeholder="placeholder" />
+    <input
+        :type="type"
+        class="input w-full"
+        v-model="model"
+        @blur="onBlur"
+        :placeholder="placeholder"
+    />
     <div class="relative pb-2">
         <span v-show="error && isActive" class="absolute pt-1 text-xs text-red-500">
             {{ error }}

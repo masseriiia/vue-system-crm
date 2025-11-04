@@ -1,16 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthView from '@/views/AuthView.vue'
-import ProfileView from '@/views/ProfileView.vue'
-import RegisterView from '@/views/RegisterView.vue'
 import { currentUserStore } from '@/stores/currentUser.ts'
 import { getToken } from '@/services/tokenService.ts'
+import AuthView from '@/views/AuthView.vue'
+import RegisterView from '@/views/RegisterView.vue'
 import DashboardView from '@/views/DashboardView.vue'
+import ClientsView from '@/views/ClientsView.vue'
+import CatalogsView from '@/views/CatalogsView.vue'
+import MessagesView from '@/views/MessagesView.vue'
+import SettingsView from '@/views/SettingsView.vue'
 
 const routes = [
     {
         path: '/',
         name: 'Home',
         redirect: '/auth',
+        meta: { title: 'Профиль' },
     },
     {
         path: '/auth',
@@ -31,9 +35,28 @@ const routes = [
         meta: { title: 'Панель управления' },
     },
     {
-        path: '/profile',
-        name: 'Profile',
-        component: ProfileView,
+        path: '/clients',
+        name: 'Clients',
+        component: ClientsView,
+        meta: { title: 'Клиенты' },
+    },
+    {
+        path: '/catalogs',
+        name: 'Catalogs',
+        component: CatalogsView,
+        meta: { title: 'Каталог' },
+    },
+    {
+        path: '/messages',
+        name: 'Messages',
+        component: MessagesView,
+        meta: { title: 'Сообщения' },
+    },
+    {
+        path: '/settings',
+        name: 'Settings',
+        component: SettingsView,
+        meta: { title: 'Настройки' },
     },
 ]
 
@@ -62,7 +85,7 @@ router.beforeEach((to) => {
         return { name: 'Auth' }
     }
 
-    if (store.isLoggedIn && to.name === 'Register') {
+    if (store.isLoggedIn && (to.name === 'Register' || to.name === 'Auth')) {
         return { name: 'Dashboard' }
     }
 
