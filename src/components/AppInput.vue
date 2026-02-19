@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { InputType } from '@/constants/form.ts'
+
 const model = defineModel()
 const isActive = defineModel('touched')
 
 defineProps<{
-    type: 'text' | 'email' | 'password' | 'checkbox' | 'number'
+    type: InputType
     error: string | null
     placeholder: string
 }>()
@@ -16,7 +18,7 @@ const onBlur = () => {
 <template>
     <input
         :type="type"
-        class="input w-full"
+        class="input w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
         v-model="model"
         @blur="onBlur"
         :placeholder="placeholder"

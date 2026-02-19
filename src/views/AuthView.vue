@@ -2,14 +2,15 @@
 import { computed, reactive, ref, toRef } from 'vue'
 import { loginService } from '@/services/authService.ts'
 import { useToast } from 'vue-toastification'
-import { currentUserStore } from '@/stores/currentUser.ts'
+import { useUserStore } from '@/stores/useUserStore.ts'
 import AppModal from '@/components/AppModal.vue'
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
 import { useValidation } from '@/composables/useValidation.ts'
 import { useRouter } from 'vue-router'
+import { ROUTE_NAMES, ROUTE_PATHS } from '@/constants/routes.ts'
 
-const store = currentUserStore()
+const store = useUserStore()
 const toast = useToast()
 const router = useRouter()
 
@@ -30,12 +31,12 @@ const isSubmitDisable = computed(() => {
     return isLoading.value || !!emailErrorText.value || !!passwordErrorText.value
 })
 
-const handleLoginSubmit = async () => {
+const submitForm = async () => {
     isLoading.value = true
     try {
         await loginService(auth.email, auth.password)
         await store.fetchCurrentUser()
-        await router.push({ name: 'Dashboard' })
+        await router.push({ name: ROUTE_NAMES.DASHBOARD })
         toast.success('Вы успешно авторизовались!')
     } catch (error) {
         toast.error(error.message)
@@ -47,12 +48,12 @@ const handleLoginSubmit = async () => {
 
 <template>
     <AppModal>
-        <h2 class="text-2xl font-bold text-center mb-6">Добро пожаловать</h2>
-        <p class="text-center">Войдите в свою учетную запись</p>
-        <form class="flex flex-col gap-4" @submit.prevent="handleLoginSubmit">
+        <h2 class="text-2xl text-gray-900 dark:text-white font-bold text-center mb-6">Добро пожаловать</h2>
+        <p class="text-center text-gray-900 dark:text-white">Войдите в свою учетную запись</p>
+        <form class="flex flex-col gap-4" @submit.prevent="submitForm">
             <div>
                 <label>
-                    <span class="label-text">Почта</span>
+                    <span class="label-text text-gray-900 dark:text-white">Почта</span>
                     <AppInput
                         type="email"
                         v-model="auth.email"
@@ -64,7 +65,7 @@ const handleLoginSubmit = async () => {
             </div>
             <div>
                 <label>
-                    <span class="label-text">Пароль</span>
+                    <span class="label-text text-gray-900 dark:text-white">Пароль</span>
                     <AppInput
                         type="password"
                         v-model="auth.password"
@@ -80,8 +81,8 @@ const handleLoginSubmit = async () => {
             <span class="text-gray-400">ИЛИ</span>
         </div>
         <div class="flex justify-center items-center gap-2">
-            <p class="flex-grow-0">Нет аккаунта?</p>
-            <AppButton variant="secondary" to="/register">Зарегистрироваться</AppButton>
+            <p class="flex-grow-0 text-gray-900 dark:text-white">Нет аккаунта?</p>
+            <AppButton variant="secondary" :to="ROUTE_PATHS.REGISTER">Зарегистрироваться</AppButton>
         </div>
     </AppModal>
 </template>

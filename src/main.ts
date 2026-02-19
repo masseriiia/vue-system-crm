@@ -7,8 +7,10 @@ import 'vue-toastification/dist/index.css'
 import App from './App.vue'
 import router from './router'
 import './assets/styles/main.css'
+import { useTheme } from './composables/useTheme'
 
 const app = createApp(App)
+useTheme()
 
 const options = {
     position: 'bottom-right',

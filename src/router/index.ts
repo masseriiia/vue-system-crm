@@ -1,61 +1,55 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { currentUserStore } from '@/stores/currentUser.ts'
+import { useUserStore } from '@/stores/useUserStore.ts'
 import { getToken } from '@/services/tokenService.ts'
-import AuthView from '@/views/AuthView.vue'
-import RegisterView from '@/views/RegisterView.vue'
-import DashboardView from '@/views/DashboardView.vue'
-import ClientsView from '@/views/ClientsView.vue'
-import CatalogsView from '@/views/CatalogsView.vue'
-import MessagesView from '@/views/MessagesView.vue'
-import SettingsView from '@/views/SettingsView.vue'
+import { ROUTE_NAMES, ROUTE_PATHS } from '@/constants/routes.ts'
 
 const routes = [
     {
         path: '/',
-        name: 'Home',
+        name: ROUTE_NAMES.HOME,
         redirect: '/auth',
         meta: { title: 'Профиль' },
     },
     {
-        path: '/auth',
-        name: 'Auth',
-        component: AuthView,
+        path: ROUTE_PATHS.AUTH,
+        name: ROUTE_NAMES.AUTH,
+        component: () => import('@/views/AuthView.vue'),
         meta: { title: 'Авторизация' },
     },
     {
-        path: '/register',
-        name: 'Register',
-        component: RegisterView,
+        path: ROUTE_PATHS.REGISTER,
+        name: ROUTE_NAMES.REGISTER,
+        component: () => import('@/views/RegisterView.vue'),
         meta: { title: 'Регистрация' },
     },
     {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: DashboardView,
+        path: ROUTE_PATHS.DASHBOARD,
+        name: ROUTE_NAMES.DASHBOARD,
+        component: () => import('@/views/DashboardView.vue'),
         meta: { title: 'Панель управления' },
     },
     {
-        path: '/clients',
-        name: 'Clients',
-        component: ClientsView,
+        path: ROUTE_PATHS.CLIENTS,
+        name: ROUTE_NAMES.CLIENTS,
+        component: () => import('@/views/ClientsView.vue'),
         meta: { title: 'Клиенты' },
     },
     {
-        path: '/catalogs',
-        name: 'Catalogs',
-        component: CatalogsView,
+        path: ROUTE_PATHS.CATALOGS,
+        name: ROUTE_NAMES.CATALOGS,
+        component: () => import('@/views/CatalogsView.vue'),
         meta: { title: 'Каталог' },
     },
     {
-        path: '/messages',
-        name: 'Messages',
-        component: MessagesView,
+        path: ROUTE_PATHS.MESSAGES,
+        name: ROUTE_NAMES.MESSAGES,
+        component: () => import('@/views/MessagesView.vue'),
         meta: { title: 'Сообщения' },
     },
     {
-        path: '/settings',
-        name: 'Settings',
-        component: SettingsView,
+        path: ROUTE_PATHS.SETTINGS,
+        name: ROUTE_NAMES.SETTINGS,
+        component: () => import('@/views/SettingsView.vue'),
         meta: { title: 'Настройки' },
     },
 ]
@@ -66,27 +60,27 @@ const router = createRouter({
 })
 
 router.beforeEach(async () => {
-    const store = currentUserStore()
+    const store = useUserStore()
 
     if (getToken()) {
         try {
             await store.fetchCurrentUser()
         } catch (error) {
             console.error('Ошибка', error)
-            return { name: 'Auth' }
+            return { name: ROUTE_NAMES.AUTH }
         }
     }
 })
 
 router.beforeEach((to) => {
-    const store = currentUserStore()
+    const store = useUserStore()
 
-    if (!store.isLoggedIn && to.name !== 'Auth' && to.name !== 'Register') {
-        return { name: 'Auth' }
+    if (!store.isLoggedIn && to.name !== ROUTE_NAMES.AUTH && to.name !== ROUTE_NAMES.REGISTER) {
+        return { name: ROUTE_NAMES.AUTH }
     }
 
-    if (store.isLoggedIn && (to.name === 'Register' || to.name === 'Auth')) {
-        return { name: 'Dashboard' }
+    if (store.isLoggedIn && (to.name === ROUTE_NAMES.REGISTER || to.name === ROUTE_NAMES.AUTH)) {
+        return { name: ROUTE_NAMES.DASHBOARD }
     }
 
     return true

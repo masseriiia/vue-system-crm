@@ -11,7 +11,7 @@ import {
 } from '@heroicons/vue/24/solid'
 import AppLogo from '@/components/AppLogo.vue'
 import { useRoute } from 'vue-router'
-import { currentUserStore } from '@/stores/currentUser.ts'
+import { useUserStore } from '@/stores/useUserStore.ts'
 import AppButton from '@/components/AppButton.vue'
 
 interface INavigationItem {
@@ -22,7 +22,7 @@ interface INavigationItem {
 }
 
 const route = useRoute()
-const store = currentUserStore()
+const store = useUserStore()
 const isActive = ref(false)
 const navigation = reactive<INavigationItem[]>([
     {
@@ -57,7 +57,7 @@ const navigation = reactive<INavigationItem[]>([
     },
 ])
 
-const handleNavToggle = () => {
+const toggleNavbar = () => {
     isActive.value = !isActive.value
 }
 </script>
@@ -65,7 +65,7 @@ const handleNavToggle = () => {
 <template>
     <div
         :class="[
-            'flex flex-col bg-gray-900 p-2 h-screen justify-between transition-all duration-300 ease-in-out',
+            'flex flex-col bg-white dark:bg-gray-900 p-2 h-screen justify-between transition-all duration-300 ease-in-out',
             isActive ? 'w-64' : 'w-20',
         ]"
     >
@@ -77,7 +77,7 @@ const handleNavToggle = () => {
             <div class="flex flex-col items-center">
                 <p
                     :class="[
-                        'text-s font-semibold text-slate-400 uppercase tracking-wider p-2',
+                        'text-s font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider p-2',
                         isActive ? 'opacity-100' : 'opacity-0',
                     ]"
                 >
@@ -104,7 +104,7 @@ const handleNavToggle = () => {
                 <ArrowRightEndOnRectangleIcon class="w-8 h-8" />
                 <p :class="['transition-opacity duration-300', isActive ? '' : 'hidden']">Выйти</p>
             </AppButton>
-            <AppButton variant="ghost-secondary" @click="handleNavToggle">
+            <AppButton variant="ghost-secondary" @click="toggleNavbar">
                 <AdjustmentsHorizontalIcon class="w-8 h-8" />
             </AppButton>
         </div>

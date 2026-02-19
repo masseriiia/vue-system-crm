@@ -7,6 +7,7 @@ import AppButton from '@/components/AppButton.vue'
 import AppInput from '@/components/AppInput.vue'
 import AppModal from '@/components/AppModal.vue'
 import { useValidation } from '@/composables/useValidation.ts'
+import { ROUTE_NAMES, ROUTE_PATHS } from '@/constants/routes.ts'
 
 const router = useRouter()
 const toast = useToast()
@@ -32,10 +33,8 @@ const handleRegisterSubmit = async () => {
     isLoading.value = true
     try {
         await registerService(register.email, register.password)
-
+        await router.push({name: ROUTE_NAMES.AUTH })
         toast.success('Вы успешно зарегистрировались!')
-
-        await router.push('/auth')
     } catch (error) {
         toast.error(error.message)
     } finally {
@@ -46,12 +45,12 @@ const handleRegisterSubmit = async () => {
 
 <template>
     <AppModal>
-        <h2 class="text-2xl font-bold text-center mb-6">Создать аккаунт</h2>
-        <p class="text-center">Заполните форму для регистрации</p>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-center mb-6">Создать аккаунт</h2>
+        <p class="text-center text-gray-900 dark:text-white">Заполните форму для регистрации</p>
         <form class="flex flex-col gap-4" @submit.prevent="handleRegisterSubmit">
             <div>
                 <label>
-                    <span class="label-text">Почта</span>
+                    <span class="label-text text-gray-900 dark:text-white">Почта</span>
                     <AppInput
                         type="email"
                         v-model="register.email"
@@ -63,7 +62,7 @@ const handleRegisterSubmit = async () => {
             </div>
             <div>
                 <label>
-                    <span class="label-text">Пароль</span>
+                    <span class="label-text text-gray-900 dark:text-white">Пароль</span>
                     <AppInput
                         type="password"
                         v-model="register.password"
@@ -79,8 +78,8 @@ const handleRegisterSubmit = async () => {
             <span class="text-gray-400">ИЛИ</span>
         </div>
         <div class="flex justify-center items-center gap-2">
-            <p class="flex-grow-0">Уже есть аккаунт?</p>
-            <AppButton variant="secondary" to="/auth">Войти</AppButton>
+            <p class="flex-grow-0 text-gray-900 dark:text-white">Уже есть аккаунт?</p>
+            <AppButton variant="secondary" :to="ROUTE_PATHS.AUTH">Войти</AppButton>
         </div>
     </AppModal>
 </template>

@@ -3,8 +3,9 @@ import { computed, ref } from 'vue'
 import { getCurrentUserData } from '@/services/userService.ts'
 import { deleteRefreshToken, deleteToken } from '@/services/tokenService.ts'
 import { useRouter } from 'vue-router'
+import { ROUTE_NAMES } from '@/constants/routes'
 
-export const currentUserStore = defineStore('user', () => {
+export const useUserStore = defineStore('user', () => {
     const router = useRouter()
     const user = ref(null)
     const isLoading = ref(false)
@@ -24,7 +25,7 @@ export const currentUserStore = defineStore('user', () => {
         user.value = null
         deleteToken()
         deleteRefreshToken()
-        await router.push({ name: 'Auth' })
+        await router.push({ name: ROUTE_NAMES.AUTH })
     }
 
     return { user, isLoading, isLoggedIn, fetchCurrentUser, logout }
