@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { getCurrentUserData } from '@/modules/auth/api/userService.ts'
 import { deleteRefreshToken, deleteToken } from '@/modules/auth/api/tokenService.ts'
 import { useRouter } from 'vue-router'
-import { ROUTE_NAMES } from '@/app/constants/routes.ts'
+import { ROUTE_NAMES } from '@/app/constants'
 
 export const useUserStore = defineStore('user', () => {
     const router = useRouter()

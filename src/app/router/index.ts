@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/app/stores/useUserStore.ts'
 import { getToken, getRefreshToken } from '@/modules/auth/api/tokenService.ts'
-import { ROUTE_NAMES, ROUTE_PATHS } from '@/app/constants/routes.ts'
+import { ROUTE_NAMES, ROUTE_PATHS } from '@/app/constants'
 
 const routes = [
     {

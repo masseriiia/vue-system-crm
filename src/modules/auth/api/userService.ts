@@ -1,19 +1,17 @@
 import { getRefreshToken, getToken, setRefreshToken, setToken } from '@/modules/auth/api/tokenService.ts'
+import { useFetch } from "@/app/composables/useFetch";
+import type { IUser } from '@/modules/auth/interfaces'
 
 export async function getCurrentUserData() {
+    const api = useFetch(import.meta.env.VITE_API)
     const token = getToken()
-    let dataMe = null
+    let dataMe: IUser | null = null
 
     if (token) {
-        dataMe = await fetch(`${import.meta.env.VITE_API}/auth/me`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-        })
+        dataMe = await api.get('/auth/me')
     }
 
-    if (!token || dataMe?.status === 401) {
+    if (!token) {
         const refreshToken = getRefreshToken()
 
         if (!refreshToken) {
@@ -21,19 +19,7 @@ export async function getCurrentUserData() {
             return null
         }
 
-        dataMe = await fetch(`${import.meta.env.VITE_API}/auth/refresh`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ refreshToken }),
-        })
-
-        if (!dataMe.ok) {
-            throw new Error('Проблема с токеном!')
-        }
-
-        const res = await dataMe.json()
+        const res = await api.post<{refreshToken: string}, {accessToken: string, refreshToken: string}>('/auth/refresh', { refreshToken })
 
         setToken(res.accessToken)
 
@@ -41,13 +27,8 @@ export async function getCurrentUserData() {
             setRefreshToken(res.refreshToken)
         }
 
-        dataMe = await fetch(`${import.meta.env.VITE_API}/auth/me`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${res.accessToken}`
-            },
-        })
+        dataMe = await api.get('/auth/me')
     }
 
-    return await dataMe?.json()
+    return dataMe
 }

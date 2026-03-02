@@ -4,7 +4,7 @@ import { registerService } from '@/modules/auth/api/registerService.ts'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 import { useValidation } from '@/modules/auth/composables/useValidation.ts'
-import { ROUTE_NAMES, ROUTE_PATHS } from '@/app/constants/routes.ts'
+import { ROUTE_NAMES, ROUTE_PATHS } from '@/app/constants'
 import AppInput from '@/ui/AppInput.vue'
 import AppModal from '@/ui/AppModal.vue'
 import AppButton from '@/ui/AppButton.vue'
@@ -36,7 +36,9 @@ const handleRegisterSubmit = async () => {
         await router.push({name: ROUTE_NAMES.AUTH })
         toast.success('Вы успешно зарегистрировались!')
     } catch (error) {
-        toast.error(error.message)
+        if (error instanceof Error) {
+            toast.error(error.message)
+        }
     } finally {
         isLoading.value = false
     }

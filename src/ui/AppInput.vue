@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { InputType } from '@/app/constants/form.ts'
+import type { InputType } from '@/app/constants'
 
 const model = defineModel()
 const isActive = defineModel('touched')

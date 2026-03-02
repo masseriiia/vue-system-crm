@@ -6,7 +6,7 @@ import AppButton from '@/ui/AppButton.vue'
 import { useTheme } from '@/modules/settings/composables/useTheme.ts'
 import { SETTINGS_TYPE, type SettingsType } from '@/modules/settings/constants/settings'
 import { useUserStore } from '@/app/stores/useUserStore.ts'
-import SettingsProfile from '@/modules/settings/components/SettingsProfile.vue'
+import SettingsProfile from '@/modules/settings/SettingsProfile.vue'
 import SettingsSecurity from '@/modules/settings/components/SettingsSecurity.vue'
 import SettingsAppearance from '@/modules/settings/components/SettingsAppearance.vue'
 
