@@ -1,6 +1,0 @@
-@import 'tailwindcss';
-@plugin "daisyui";
-
-@import './base.css';
-@import './fonts.css';
-@import './color.css';

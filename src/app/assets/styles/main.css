@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@plugin "daisyui";
+@variant dark (&:where(.dark, .dark *));
+
+@import './base.css';
+@import './fonts.css';
+@import './color.css';
